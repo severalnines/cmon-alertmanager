@@ -1,0 +1,25 @@
+groups:
+  - name: 'MySQL Server Status'
+    rules:
+          - alert: MySQLInstanceDown
+            expr: mysql_up == 0
+            for: 1m
+            labels:
+                severity: critical
+                service: "MySQL"
+            annotations:
+                summary: "MySQL server instance is down"
+                description: "MySQLhas not been responding for the past 1 minutes on {{ $labels.instance }}"
+                title: "MySQL server instance {{ $labels.instance }} is down "
+          - alert: MysqlTooManyConnections(>80%)
+            expr: max_over_time(mysql_global_status_threads_connected[1m]) / mysql_global_variables_max_connections * 100 > 80
+            for: 2m
+            labels:
+                severity: warning
+                service: "MySQL"
+            annotations:
+                summary: MySQL too many connections (> 80%) (instance {{ $labels.instance }})
+                description: "More than 80% of MySQL connections are in use on {{ $labels.instance }}\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+                title: "MySQL server instance {{ $labels.instance }} too many connections "
+
+
