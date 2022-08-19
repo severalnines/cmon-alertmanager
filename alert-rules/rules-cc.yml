@@ -1,14 +1,25 @@
 groups:
 - name: Datastore Status
   rules:
-  - alert: ClusterDown
+  - alert: Cluster Failed
     # Condition for alerting
-    expr: cmon_cluster_up == 0
+    expr: cmon_cluster_failed == 1
     for: 2m
     # Annotation - additional informational labels to store more information
     annotations:
       title: 'Cluster {{ $labels.name }} is down'
-      description: '{{ $labels.name }} of job {{ $labels.job }} has been down for more than 1 minute.'
+      description: '{{ $labels.name }} of job {{ $labels.job }} has been down for more than 2 minute.'
     # Labels - additional labels to be attached to the alert
     labels:
       severity: 'critical'
+  - alert: Cluster Degraded
+    # Condition for alerting
+    expr: cmon_cluster_degraded == 1
+    for: 2m
+    # Annotation - additional informational labels to store more information
+    annotations:
+      title: 'Cluster {{ $labels.name }} is down'
+      description: '{{ $labels.name }} of job {{ $labels.job }} has been degraded for more than 2 minute.'
+    # Labels - additional labels to be attached to the alert
+    labels:
+      severity: 'critical'      
