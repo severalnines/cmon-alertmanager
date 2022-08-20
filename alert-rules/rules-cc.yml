@@ -7,7 +7,7 @@ groups:
     for: 2m
     # Annotation - additional informational labels to store more information
     annotations:
-      title: 'Cluster {{ $labels.name }} is down'
+      title: 'Cluster {{ $labels.name }} is FAILED'
       description: '{{ $labels.name }} of job {{ $labels.job }} has been down for more than 2 minute.'
     # Labels - additional labels to be attached to the alert
     labels:
@@ -18,7 +18,7 @@ groups:
     for: 2m
     # Annotation - additional informational labels to store more information
     annotations:
-      title: 'Cluster {{ $labels.name }} is down'
+      title: 'Cluster {{ $labels.name }} is DEGRADED'
       description: '{{ $labels.name }} of job {{ $labels.job }} has been degraded for more than 2 minute.'
     # Labels - additional labels to be attached to the alert
     labels:
