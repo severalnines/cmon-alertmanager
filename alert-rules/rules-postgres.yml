@@ -9,15 +9,15 @@ groups:
                 service: "PostgreSQL"
             annotations:
                 summary: "Postgres server instance is down"
-                description: "Postgres has not been responding for the past 1 minutes on {{ $labels.instance }}"
-                title: "Postgres server instance {{ $labels.instance }} is down "
+                description: "Postgres has not been responding for the past 1 minutes on {{ $labels.monitors }}"
+                title: "Postgres server instance {{ $labels.monitors }} is down "
           - alert: PostgresqlSplitBrain
             expr: count(pg_replication_is_replica == 0) != 1
             for: 0m
             labels:
               severity: critical
             annotations:
-              summary: Postgresql split brain (instance {{ $labels.instance }})
+              summary: Postgresql split brain (instance {{ $labels.monitors }})
               description: "Split Brain, too many primary Postgresql databases in read-write mode\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
           - alert: PostgresqlReplicationLag
             expr: pg_replication_lag > 30 and ON(instance) pg_replication_is_replica == 1
@@ -25,6 +25,6 @@ groups:
             labels:
               severity: critical
             annotations:
-              summary: Postgresql replication lag (instance {{ $labels.instance }})
+              summary: Postgresql replication lag (instance {{ $labels.monitors }})
               description: "PostgreSQL replication lag is going up (> 30s)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
